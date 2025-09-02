@@ -4,70 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kilometer Registratie</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; margin-bottom: 20px; text-align: center; }
-        .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #eee; }
-        .tab { padding: 10px 20px; cursor: pointer; border: none; background: none; font-size: 16px; }
-        .tab.active { border-bottom: 2px solid #007bff; color: #007bff; font-weight: bold; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }
-        button { background: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #0056b3; }
-        .btn-secondary { background: #6c757d; }
-        .btn-secondary:hover { background: #545b62; }
-        .stats { background: #e9ecef; padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center; }
-        .trip { background: #f8f9fa; padding: 15px; margin-bottom: 10px; border-radius: 4px; border-left: 4px solid #007bff; }
-        .trip-header { font-weight: bold; margin-bottom: 5px; }
-        .trip-details { color: #666; font-size: 14px; }
-        .delete-btn { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; float: right; font-size: 12px; }
-        .delete-btn:hover { background: #c82333; }
-        .filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .filters > * { flex: 1; min-width: 150px; }
-        .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .summary-card { background: #f8f9fa; padding: 15px; border-radius: 4px; text-align: center; border-left: 4px solid #28a745; }
-        .summary-card h3 { margin-bottom: 10px; color: #333; }
-        .summary-card .value { font-size: 24px; font-weight: bold; color: #28a745; }
-        @media (max-width: 600px) {
-            .filters { flex-direction: column; }
-            .tabs { flex-wrap: wrap; }
-        }
-    </style>
 </head>
-<body>
-    <div class="container">
-        <h1>🚗 Kilometer Registratie</h1>
+<body style="font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; margin: 0;">
+    <div style="max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h1 style="color: #333; margin-bottom: 20px; text-align: center;">🚗 Kilometer Registratie</h1>
         
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('register')">Registreren</button>
-            <button class="tab" onclick="showTab('overview')">Overzicht</button>
+        <div style="margin-bottom: 20px; border-bottom: 2px solid #eee;">
+            <button class="tab" onclick="showTab('register')" style="display: inline-block; padding: 10px 20px; cursor: pointer; border: none; background: #007bff; color: white; font-size: 16px; margin-right: 5px; border-radius: 4px 4px 0 0;">Registreren</button>
+            <button class="tab" onclick="showTab('overview')" style="display: inline-block; padding: 10px 20px; cursor: pointer; border: none; background: #f8f9fa; color: #333; font-size: 16px; margin-right: 5px; border-radius: 4px 4px 0 0;">Overzicht</button>
         </div>
 
         <!-- Registreren Tab -->
-        <div id="register" class="tab-content active">
-            <div class="stats" id="stats">
-                <strong>Totaal gereden: 0 km</strong>
+        <div id="register" style="display: block;">
+            <div style="background: #e9ecef; padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center;">
+                <strong id="stats">Totaal gereden: 0 km</strong>
             </div>
 
             <form id="tripForm">
-                <div class="form-group">
-                    <label for="startKm">Start kilometerstand:</label>
-                    <input type="number" id="startKm" required>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Start kilometerstand:</label>
+                    <input type="number" id="startKm" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
                 </div>
                 
-                <div class="form-group">
-                    <label for="endKm">Eind kilometerstand:</label>
-                    <input type="number" id="endKm" required>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Eind kilometerstand:</label>
+                    <input type="number" id="endKm" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
                 </div>
                 
-                <div class="form-group">
-                    <label for="purpose">Doel van de rit:</label>
-                    <select id="purpose" required>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Doel van de rit:</label>
+                    <select id="purpose" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
                         <option value="">Selecteer...</option>
                         <option value="Zakelijk">Zakelijk</option>
                         <option value="Privé">Privé</option>
@@ -75,12 +41,12 @@
                     </select>
                 </div>
                 
-                <div class="form-group">
-                    <label for="description">Beschrijving (optioneel):</label>
-                    <input type="text" id="description" placeholder="Bijv. naar klant Amsterdam">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Beschrijving (optioneel):</label>
+                    <input type="text" id="description" placeholder="Bijv. naar klant Amsterdam" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
                 </div>
                 
-                <button type="submit">Rit Registreren</button>
+                <button type="submit" style="background: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%;">Rit Registreren</button>
             </form>
 
             <div style="margin-top: 30px;">
@@ -90,11 +56,13 @@
         </div>
 
         <!-- Overzicht Tab -->
-        <div id="overview" class="tab-content">
-            <div class="filters">
-                <div class="form-group">
-                    <label for="filterPeriod">Periode:</label>
-                    <select id="filterPeriod">
+        <div id="overview" style="display: none;">
+            <h2>Overzicht van Ritten</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <div style="display: inline-block; width: 30%; margin-right: 3%; vertical-align: top;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Periode:</label>
+                    <select id="filterPeriod" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
                         <option value="all">Alle ritten</option>
                         <option value="today">Vandaag</option>
                         <option value="week">Deze week</option>
@@ -102,23 +70,22 @@
                         <option value="year">Dit jaar</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="filterPurpose">Doel:</label>
-                    <select id="filterPurpose">
+                <div style="display: inline-block; width: 30%; margin-right: 3%; vertical-align: top;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Doel:</label>
+                    <select id="filterPurpose" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
                         <option value="all">Alle doelen</option>
                         <option value="Zakelijk">Zakelijk</option>
                         <option value="Privé">Privé</option>
                         <option value="Woon-werk">Woon-werk</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button type="button" class="btn-secondary" onclick="exportData()">Export CSV</button>
+                <div style="display: inline-block; width: 30%; vertical-align: top;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">&nbsp;</label>
+                    <button type="button" onclick="exportData()" style="background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%;">Export CSV</button>
                 </div>
             </div>
 
-            <div class="summary-cards" id="summaryCards"></div>
-            
+            <div id="summaryCards" style="margin-bottom: 20px;"></div>
             <div id="filteredTrips"></div>
         </div>
     </div>
@@ -235,12 +202,12 @@
             renderTrip(trip) {
                 const date = new Date(trip.date).toLocaleDateString('nl-NL');
                 return `
-                    <div class="trip">
-                        <button class="delete-btn" onclick="app.deleteTrip(${trip.id})">×</button>
-                        <div class="trip-header">
+                    <div style="background: #f8f9fa; padding: 15px; margin-bottom: 10px; border-radius: 4px; border-left: 4px solid #007bff; position: relative;">
+                        <button onclick="app.deleteTrip('${trip.id}')" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; float: right; font-size: 12px;">×</button>
+                        <div style="font-weight: bold; margin-bottom: 5px;">
                             ${trip.distance} km - ${trip.purpose}
                         </div>
-                        <div class="trip-details">
+                        <div style="color: #666; font-size: 14px;">
                             ${date} ${trip.time} | ${trip.startKm} → ${trip.endKm} km
                             ${trip.description ? `<br><em>${trip.description}</em>` : ''}
                         </div>
@@ -250,7 +217,7 @@
 
             updateStats() {
                 const totalKm = this.trips.reduce((sum, trip) => sum + trip.distance, 0);
-                document.getElementById('stats').innerHTML = `<strong>Totaal gereden: ${totalKm} km</strong>`;
+                document.getElementById('stats').innerHTML = `Totaal gereden: ${totalKm} km`;
             }
 
             getFilteredTrips() {
@@ -259,12 +226,10 @@
                 
                 let filtered = [...this.trips];
 
-                // Filter by purpose
                 if (purpose !== 'all') {
                     filtered = filtered.filter(trip => trip.purpose === purpose);
                 }
 
-                // Filter by period
                 if (period !== 'all') {
                     const now = new Date();
                     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -295,33 +260,31 @@
             updateOverview() {
                 const filtered = this.getFilteredTrips();
                 
-                // Update summary cards
                 const totalKm = filtered.reduce((sum, trip) => sum + trip.distance, 0);
                 const zakelijkKm = filtered.filter(t => t.purpose === 'Zakelijk').reduce((sum, trip) => sum + trip.distance, 0);
                 const priveKm = filtered.filter(t => t.purpose === 'Privé').reduce((sum, trip) => sum + trip.distance, 0);
                 const woonWerkKm = filtered.filter(t => t.purpose === 'Woon-werk').reduce((sum, trip) => sum + trip.distance, 0);
 
                 document.getElementById('summaryCards').innerHTML = `
-                    <div class="summary-card">
-                        <h3>Totaal</h3>
-                        <div class="value">${totalKm} km</div>
+                    <div style="display: inline-block; width: 23%; margin-right: 2%; background: #f8f9fa; padding: 15px; border-radius: 4px; text-align: center; border-left: 4px solid #28a745; vertical-align: top;">
+                        <h3 style="margin-bottom: 10px; color: #333;">Totaal</h3>
+                        <div style="font-size: 24px; font-weight: bold; color: #28a745;">${totalKm} km</div>
                         <div>${filtered.length} ritten</div>
                     </div>
-                    <div class="summary-card">
-                        <h3>Zakelijk</h3>
-                        <div class="value">${zakelijkKm} km</div>
+                    <div style="display: inline-block; width: 23%; margin-right: 2%; background: #f8f9fa; padding: 15px; border-radius: 4px; text-align: center; border-left: 4px solid #28a745; vertical-align: top;">
+                        <h3 style="margin-bottom: 10px; color: #333;">Zakelijk</h3>
+                        <div style="font-size: 24px; font-weight: bold; color: #28a745;">${zakelijkKm} km</div>
                     </div>
-                    <div class="summary-card">
-                        <h3>Privé</h3>
-                        <div class="value">${priveKm} km</div>
+                    <div style="display: inline-block; width: 23%; margin-right: 2%; background: #f8f9fa; padding: 15px; border-radius: 4px; text-align: center; border-left: 4px solid #28a745; vertical-align: top;">
+                        <h3 style="margin-bottom: 10px; color: #333;">Privé</h3>
+                        <div style="font-size: 24px; font-weight: bold; color: #28a745;">${priveKm} km</div>
                     </div>
-                    <div class="summary-card">
-                        <h3>Woon-werk</h3>
-                        <div class="value">${woonWerkKm} km</div>
+                    <div style="display: inline-block; width: 23%; background: #f8f9fa; padding: 15px; border-radius: 4px; text-align: center; border-left: 4px solid #28a745; vertical-align: top;">
+                        <h3 style="margin-bottom: 10px; color: #333;">Woon-werk</h3>
+                        <div style="font-size: 24px; font-weight: bold; color: #28a745;">${woonWerkKm} km</div>
                     </div>
                 `;
 
-                // Update trips list
                 const filteredTrips = document.getElementById('filteredTrips');
                 if (filtered.length === 0) {
                     filteredTrips.innerHTML = '<p style="text-align: center; color: #666;">Geen ritten gevonden voor de geselecteerde filters</p>';
@@ -333,12 +296,20 @@
 
         function showTab(tabName) {
             // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById('register').style.display = 'none';
+            document.getElementById('overview').style.display = 'none';
+            
+            // Reset tab buttons
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.style.background = '#f8f9fa';
+                tab.style.color = '#333';
+            });
             
             // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            document.getElementById(tabName).style.display = 'block';
+            event.target.style.background = '#007bff';
+            event.target.style.color = 'white';
             
             if (tabName === 'overview') {
                 app.updateOverview();
