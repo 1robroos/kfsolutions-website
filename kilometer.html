@@ -126,20 +126,33 @@
     <script>
         class KilometerApp {
             constructor() {
-                this.trips = JSON.parse(localStorage.getItem('trips') || '[]');
+                this.apiUrl = 'https://3a18fm6dyl.execute-api.us-east-1.amazonaws.com/prod/trips';
+                this.trips = [];
                 this.init();
             }
 
-            init() {
+            async init() {
                 document.getElementById('tripForm').addEventListener('submit', (e) => this.addTrip(e));
                 document.getElementById('filterPeriod').addEventListener('change', () => this.updateOverview());
                 document.getElementById('filterPurpose').addEventListener('change', () => this.updateOverview());
+                await this.loadTrips();
                 this.renderRecentTrips();
                 this.updateStats();
                 this.updateOverview();
             }
 
-            addTrip(e) {
+            async loadTrips() {
+                try {
+                    const response = await fetch(this.apiUrl);
+                    this.trips = await response.json();
+                    this.trips.sort((a, b) => new Date(b.date) - new Date(a.date));
+                } catch (error) {
+                    console.error('Error loading trips:', error);
+                    this.trips = [];
+                }
+            }
+
+            async addTrip(e) {
                 e.preventDefault();
                 
                 const startKm = parseInt(document.getElementById('startKm').value);
@@ -153,7 +166,7 @@
                 }
 
                 const trip = {
-                    id: Date.now(),
+                    id: Date.now().toString(),
                     date: new Date().toISOString().split('T')[0],
                     time: new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }),
                     startKm,
@@ -163,28 +176,48 @@
                     description
                 };
 
-                this.trips.unshift(trip);
-                this.saveTrips();
-                this.renderRecentTrips();
-                this.updateStats();
-                this.updateOverview();
-                
-                document.getElementById('tripForm').reset();
-                document.getElementById('startKm').value = endKm;
-            }
+                try {
+                    const response = await fetch(this.apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(trip)
+                    });
 
-            deleteTrip(id) {
-                if (confirm('Weet je zeker dat je deze rit wilt verwijderen?')) {
-                    this.trips = this.trips.filter(trip => trip.id !== id);
-                    this.saveTrips();
-                    this.renderRecentTrips();
-                    this.updateStats();
-                    this.updateOverview();
+                    if (response.ok) {
+                        this.trips.unshift(trip);
+                        this.renderRecentTrips();
+                        this.updateStats();
+                        this.updateOverview();
+                        
+                        document.getElementById('tripForm').reset();
+                        document.getElementById('startKm').value = endKm;
+                    }
+                } catch (error) {
+                    console.error('Error adding trip:', error);
+                    alert('Fout bij opslaan van rit');
                 }
             }
 
-            saveTrips() {
-                localStorage.setItem('trips', JSON.stringify(this.trips));
+            async deleteTrip(id) {
+                if (confirm('Weet je zeker dat je deze rit wilt verwijderen?')) {
+                    try {
+                        const response = await fetch(this.apiUrl, {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id })
+                        });
+
+                        if (response.ok) {
+                            this.trips = this.trips.filter(trip => trip.id !== id);
+                            this.renderRecentTrips();
+                            this.updateStats();
+                            this.updateOverview();
+                        }
+                    } catch (error) {
+                        console.error('Error deleting trip:', error);
+                        alert('Fout bij verwijderen van rit');
+                    }
+                }
             }
 
             renderRecentTrips() {
